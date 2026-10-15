@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplikationsutmaningen</title>
+    <title>Mattespel - Nova</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,16 +11,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
         }
         .card {
             background: white;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
             text-align: center;
         }
         h1 {
@@ -28,18 +30,34 @@
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
+        p.subtitle {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
         .progress {
             color: #7f8c8d;
             font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
-        .question {
-            font-size: 2.5rem;
+        .step-instruction {
+            background-color: #e8f4f8;
+            color: #2980b9;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            border: 1px solid #bce1f0;
+            line-height: 1.4;
+        }
+        .question-display {
+            font-size: 2rem;
             font-weight: bold;
-            color: #34495e;
+            color: #2c3e50;
             margin-bottom: 1.5rem;
         }
-        input[type="number"] {
+        input[type="text"] {
             width: 100%;
             padding: 15px;
             font-size: 1.8rem;
@@ -49,8 +67,9 @@
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.3s;
+            margin-bottom: 15px;
         }
-        input[type="number"]:focus {
+        input[type="text"]:focus {
             border-color: #3498db;
         }
         .hidden {
@@ -62,108 +81,238 @@
             margin-bottom: 1.5rem;
         }
         .btn {
-            background-color: #2ecc71;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 1.05rem;
+            border-radius: 10px;
             cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
             transition: background 0.3s;
+            font-weight: bold;
         }
         .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-green {
+            background-color: #2ecc71;
+        }
+        .btn-green:hover {
             background-color: #27ae60;
+        }
+        .btn-back {
+            background-color: #95a5a6;
+            margin-top: 10px;
+        }
+        .btn-back:hover {
+            background-color: #7f8c8d;
         }
     </style>
 </head>
 <body>
     <div class="card">
-        <div id="quiz-container">
-            <h1>Multiplikationsutmaningen</h1>
-            <div class="progress" id="progress-text">Fråga 1 av 100</div>
-            <div class="question" id="question-text">3 × 4 = ?</div>
-            <input type="number" id="answer-input" autocomplete="off" autofocus>
+        <!-- MENY -->
+        <div id="menu-container">
+            <h1>Välj utmaning</h1>
+            <p class="subtitle">Vad vill du träna på idag?</p>
+            <button class="btn" onclick="startQuiz('multiplication')">1. Multiplikationstabellen (100 st)</button>
+            <button class="btn btn-green" onclick="startQuiz('decimals')">2. Decimalutmaningen (100 st)</button>
         </div>
+
+        <!-- SJÄLVA SPELVYN -->
+        <div id="quiz-container" class="hidden">
+            <h1 id="mode-title"></h1>
+            <div class="progress" id="progress-text">Fråga 1 av 100</div>
+            
+            <div id="instruction-box" class="step-instruction">
+                Räkna ut talet, eller skriv det balanserade talet (t.ex. 3,00) med rätt nollor!
+            </div>
+
+            <div class="question-display" id="question-text"></div>
+
+            <input type="text" id="answer-input" autocomplete="off" autofocus placeholder="Ditt svar...">
+            <button class="btn btn-back" onclick="returnToMenu()">Tillbaka till menyn</button>
+        </div>
+
+        <!-- RESULTATVYN -->
         <div id="result-container" class="hidden">
             <h1>Bra jobbat! 🎉</h1>
             <p class="results" id="score-text"></p>
-            <button class="btn" onclick="restartQuiz()">Kör igen</button>
+            <button class="btn btn-green" onclick="restartCurrentMode()">Kör igen</button>
+            <button class="btn btn-back" onclick="returnToMenu()">Tillbaka till menyn</button>
         </div>
     </div>
 
     <script>
+        let currentMode = '';
         let questions = [];
         let currentIndex = 0;
         let score = 0;
 
-        function generateQuestions() {
+        const menuContainer = document.getElementById('menu-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const modeTitle = document.getElementById('mode-title');
+        const progressText = document.getElementById('progress-text');
+        const instructionBox = document.getElementById('instruction-box');
+        const questionText = document.getElementById('question-text');
+        const inputField = document.getElementById('answer-input');
+        const scoreText = document.getElementById('score-text');
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            currentIndex = 0;
+            score = 0;
+            
+            menuContainer.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+
+            if (mode === 'multiplication') {
+                modeTitle.textContent = "Multiplikationsutmaningen";
+                instructionBox.style.display = 'none';
+                generateMultiplicationQuestions();
+            } else {
+                modeTitle.textContent = "Decimalutmaningen";
+                instructionBox.style.display = 'block';
+                generateDecimalQuestions();
+            }
+
+            showQuestion();
+        }
+
+        function returnToMenu() {
+            quizContainer.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            menuContainer.classList.remove('hidden');
+        }
+
+        function restartCurrentMode() {
+            startQuiz(currentMode);
+        }
+
+        function generateMultiplicationQuestions() {
             questions = [];
             for (let i = 0; i < 100; i++) {
                 const a = Math.floor(Math.random() * 9) + 1;
                 const b = Math.floor(Math.random() * 9) + 1;
-                questions.push({ a, b, answer: a * b });
+                const ans = (a * b).toString();
+                questions.push({
+                    text: `${a} × ${b} = ?`,
+                    accept: [ans]
+                });
             }
         }
 
-        const inputField = document.getElementById('answer-input');
-        const questionText = document.getElementById('question-text');
-        const progressText = document.getElementById('progress-text');
-        const quizContainer = document.getElementById('quiz-container');
-        const resultContainer = document.getElementById('result-container');
-        const scoreText = document.getElementById('score-text');
+        function generateDecimalQuestions() {
+            questions = [];
+            const operations = ['+', '-', '*'];
+
+            for (let i = 0; i < 100; i++) {
+                const op = operations[Math.floor(Math.random() * operations.length)];
+                let d1 = Math.floor(Math.random() * 3); // 0, 1 eller 2 decimaler
+                let d2 = Math.floor(Math.random() * 3);
+                
+                if (d1 === d2) {
+                    d2 = (d1 + 1) % 3;
+                }
+
+                let base1 = Math.floor(Math.random() * 89) + 10; 
+                let base2 = Math.floor(Math.random() * 89) + 10;
+
+                let n1 = base1 / Math.pow(10, d1);
+                let n2 = base2 / Math.pow(10, d2);
+
+                if (op === '-' && n1 < n2) {
+                    [n1, n2] = [n2, n1];
+                    [d1, d2] = [d2, d1];
+                }
+
+                let exactAns;
+                if (op === '+') exactAns = n1 + n2;
+                else if (op === '-') exactAns = n1 - n2;
+                else exactAns = n1 * n2;
+
+                exactAns = Math.round(exactAns * 1000) / 1000;
+                let targetDec = Math.max(d1, d2);
+
+                // Förbered godkända svar:
+                // 1. Det korrekta slutresultatet (t.ex. 2,48 eller 2,5) med både punkt och komma
+                let acceptList = [
+                    exactAns.toString().replace('.', ','),
+                    exactAns.toString(),
+                    exactAns.toFixed(1).replace('.', ','),
+                    exactAns.toFixed(2).replace('.', ','),
+                    exactAns.toFixed(3).replace('.', ',')
+                ];
+
+                // 2. Om hon vill svara med det balanserade talet (t.ex. om n1 hade färre decimaler)
+                let bal1 = n1.toFixed(targetDec).replace('.', ',');
+                let bal2 = n2.toFixed(targetDec).replace('.', ',');
+                acceptList.push(bal1, bal2);
+
+                acceptList = [...new Set(acceptList)];
+
+                let opSymbol = op === '*' ? '×' : op;
+                let textStr = `${n1.toFixed(d1).replace('.', ',')} ${opSymbol} ${n2.toFixed(d2).replace('.', ',')} = ?`;
+
+                questions.push({
+                    text: textStr,
+                    accept: acceptList
+                });
+            }
+        }
 
         function showQuestion() {
-            if (currentIndex < 100) {
-                const q = questions[currentIndex];
-                questionText.textContent = `${q.a} × ${q.b} = ?`;
-                progressText.textContent = `Fråga ${currentIndex + 1} av 100`;
-                inputField.value = '';
-                inputField.focus();
-            } else {
+            if (currentIndex >= 100) {
                 showResults();
+                return;
+            }
+
+            const q = questions[currentIndex];
+            progressText.textContent = `Fråga ${currentIndex + 1} av 100`;
+            questionText.textContent = q.text;
+            inputField.value = '';
+            inputField.focus();
+        }
+
+        function checkAnswer() {
+            const userVal = inputField.value.trim().replace('.', ',');
+            if (userVal === '') return;
+
+            const q = questions[currentIndex];
+            if (q.accept.includes(userVal)) {
+                score++;
+                currentIndex++;
+                showQuestion();
             }
         }
+
+        inputField.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        inputField.addEventListener('input', function() {
+            const userVal = inputField.value.trim().replace('.', ',');
+            if (userVal === '') return;
+
+            const q = questions[currentIndex];
+            if (q.accept.includes(userVal)) {
+                score++;
+                currentIndex++;
+                showQuestion();
+            }
+        });
 
         function showResults() {
             quizContainer.classList.add('hidden');
             resultContainer.classList.remove('hidden');
             scoreText.innerHTML = `Du fick <strong>${score}</strong> av 100 rätt!`;
         }
-
-        function restartQuiz() {
-            currentIndex = 0;
-            score = 0;
-            quizContainer.classList.remove('hidden');
-            resultContainer.classList.add('hidden');
-            generateQuestions();
-            showQuestion();
-        }
-
-        inputField.addEventListener('input', function() {
-            const rawVal = inputField.value;
-            if (rawVal === '') return;
-
-            const userVal = parseInt(rawVal);
-            const q = questions[currentIndex];
-
-            // Om svaret är rätt direkt (t.ex. om rätt svar är ensiffrigt och hon skriver det)
-            // eller om inmatningen har nått längden på det korrekta svarets antal tecken
-            const correctAnswerStr = q.answer.toString();
-            
-            if (userVal === q.answer) {
-                score++;
-                currentIndex++;
-                showQuestion();
-            } else if (rawVal.length >= correctAnswerStr.length) {
-                // Om hon skrivit fel antal tecken (t.ex. två siffror på en fråga som bara har en)
-                currentIndex++;
-                showQuestion();
-            }
-        });
-
-        // Starta direkt
-        generateQuestions();
-        showQuestion();
     </script>
 </body>
 </html>

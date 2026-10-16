@@ -4,119 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mattespel - Nova</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 440px;
-            text-align: center;
-            margin: auto;
-        }
-        h1 {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        p.subtitle {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-        .progress {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        .step-instruction {
-            background-color: #e8f4f8;
-            color: #2980b9;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            border: 1px solid #bce1f0;
-            line-height: 1.4;
-        }
-        .question-display {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.8rem;
-            text-align: center;
-            border: 2px solid #bdc3c7;
-            border-radius: 10px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-            margin-bottom: 15px;
-        }
-        input:focus {
-            border-color: #3498db;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .results {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-        }
-        .btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            font-size: 1.05rem;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 10px;
-            transition: background 0.3s;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #2980b9;
-        }
-        .btn-green {
-            background-color: #2ecc71;
-        }
-        .btn-green:hover {
-            background-color: #27ae60;
-        }
-        .btn-purple {
-            background-color: #9b59b6;
-        }
-        .btn-purple:hover {
-            background-color: #8e44ad;
-        }
-        .btn-back {
-            background-color: #95a5a6;
-            margin-top: 10px;
-        }
-        .btn-back:hover {
-            background-color: #7f8c8d;
         }
         @keyframes success-pop {
             0% { transform: scale(1); }
@@ -128,65 +22,83 @@
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between p-4 sm:p-6">
 
     <!-- HUVUDMENY -->
-    <div id="main-menu-container" class="card">
-        <h1>Välj utmaning</h1>
-        <p class="subtitle">Vad vill du träna på idag?</p>
-        <button class="btn" onclick="startMode('multiplication')">1. Multiplikationstabellen (100 st)</button>
-        <button class="btn btn-green" onclick="startMode('decimals')">2. Decimalutmaningen (100 st)</button>
-        <button class="btn btn-purple" onclick="startMode('fractions')">3. Bråkmästaren 📐 (100 st)</button>
+    <div id="main-menu-container" class="max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-xl shadow-indigo-100/50 p-8 sm:p-12 border border-indigo-50 text-center">
+        <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">
+            🚀
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Välj utmaning</h1>
+        <p class="text-slate-500 text-sm mb-8">Vad vill du träna på idag?</p>
+        
+        <div class="space-y-3">
+            <button onclick="startMode('multiplication')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition-all text-sm sm:text-base">
+                1. Multiplikationstabellen (100 st)
+            </button>
+            <button onclick="startMode('decimals')" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200 transition-all text-sm sm:text-base">
+                2. Decimalutmaningen (100 st)
+            </button>
+            <button onclick="startMode('fractions')" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-lg shadow-purple-200 transition-all text-sm sm:text-base">
+                3. Bråkmästaren 📐 (100 st)
+            </button>
+        </div>
     </div>
 
-    <!-- 1 & 2: MULTIPLIKATION OCH DECIMALER -->
-    <div id="simple-quiz-card" class="card hidden">
-        <h1 id="mode-title"></h1>
-        <div class="progress" id="progress-text">Fråga 1 av 100</div>
-        
-        <div id="instruction-box" class="step-instruction hidden">
+    <!-- 1 & 2: ENKLA LÄGET (Multiplikation & Decimaler) -->
+    <div id="simple-quiz-card" class="hidden max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-indigo-50 text-center space-y-6">
+        <div class="flex justify-between items-center text-xs font-semibold">
+            <span id="mode-title-badge" class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">Läge</span>
+            <span id="simple-progress-text" class="text-slate-500">Fråga 1 av 100</span>
+        </div>
+
+        <div id="simple-instruction" class="bg-indigo-50/70 text-indigo-900 p-3 rounded-xl text-xs font-semibold hidden">
             Räkna ut talet, eller skriv det balanserade talet (t.ex. 3,00) med rätt nollor!
         </div>
 
-        <div class="question-display" id="question-text"></div>
+        <div id="simple-question-text" class="text-3xl sm:text-4xl font-extrabold text-slate-800 py-4"></div>
 
-        <input type="text" id="answer-input" autocomplete="off" autofocus placeholder="Ditt svar...">
-        <button class="btn btn-back" onclick="returnToMenu()">Tillbaka till menyn</button>
+        <input type="text" id="simple-answer-input" autocomplete="off" autofocus placeholder="Ditt svar..."
+            class="w-full py-4 px-4 text-center border-2 border-slate-200 rounded-2xl focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 focus:outline-none font-extrabold text-xl sm:text-2xl text-indigo-700 bg-slate-50">
+
+        <button onclick="returnToMenu()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition-all">
+            ← Tillbaka till menyn
+        </button>
     </div>
 
     <!-- RESULTATVYN FÖR 1 & 2 -->
-    <div id="result-container" class="card hidden">
-        <h1>Bra jobbat! 🎉</h1>
-        <p class="results" id="score-text"></p>
-        <button class="btn btn-green" onclick="restartCurrentSimpleMode()">Kör igen</button>
-        <button class="btn btn-back" onclick="returnToMenu()">Tillbaka till menyn</button>
+    <div id="simple-result-container" class="hidden max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-xl p-8 border border-indigo-50 text-center space-y-6">
+        <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">🏆</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Bra jobbat! 🎉</h2>
+        <p id="simple-score-text" class="text-slate-600 text-base"></p>
+        <div class="space-y-3">
+            <button onclick="startMode(currentMode)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all">Kör igen 🔄</button>
+            <button onclick="returnToMenu()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">Tillbaka till menyn</button>
+        </div>
     </div>
 
     <!-- 3: BRÅKMÄSTAREN -->
-    <div id="fractions-container" class="hidden w-full max-w-3xl flex flex-col items-center my-auto">
-        <div class="bg-white/90 backdrop-blur-md shadow-sm border border-purple-100 rounded-2xl w-full p-4 mb-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-purple-600 text-white p-2 rounded-xl shadow-md">📐</div>
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-purple-700">Bråkmästaren</h2>
-                    <p class="text-xs text-slate-500">100 blandade bråkfrågor</p>
-                </div>
+    <main id="fractions-container" class="hidden flex-grow max-w-3xl w-full mx-auto p-4 sm:p-6 my-auto flex flex-col justify-center space-y-6">
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-indigo-50 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">Bråkmästaren</span>
             </div>
-            <button onclick="returnToMenu()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl">Tillbaka till menyn</button>
+            <button onclick="returnToMenu()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all">
+                Tillbaka till menyn
+            </button>
         </div>
 
-        <div id="fraction-card-wrapper" class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-purple-50 flex flex-col items-center text-center space-y-6 w-full relative">
-            <div class="w-full flex justify-between items-center">
-                <span id="frac-type-badge" class="bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">Addition</span>
-                <span id="frac-progress-text" class="text-xs sm:text-sm text-slate-500 font-semibold">Fråga 1 av 100</span>
+        <div id="fraction-card-wrapper" class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-purple-50 flex flex-col items-center text-center space-y-6 relative transition-all">
+            <div class="w-full flex justify-between items-center text-xs sm:text-sm font-semibold">
+                <span id="frac-type-badge" class="bg-purple-50 text-purple-700 px-3 py-1 rounded-full font-bold">Addition</span>
+                <span id="frac-progress-text" class="text-slate-500">Fråga 1 av 100</span>
             </div>
-
-            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div id="frac-progress-bar" class="bg-gradient-to-r from-purple-500 to-indigo-500 h-full w-0 transition-all duration-300 rounded-full"></div>
             </div>
 
             <div class="w-full flex justify-end">
-                <button onclick="toggleFractionGuide()" class="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5">
+                <button onclick="toggleFractionGuide()" class="px-3.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5">
                     💡 <span id="frac-guide-btn-text">Visa uppställningshjälp</span>
                 </button>
             </div>
@@ -211,11 +123,12 @@
 
             <div id="frac-feedback-hint" class="text-xs sm:text-sm h-5 font-bold transition-opacity"></div>
 
-            <div id="frac-setup-container" class="hidden w-full text-left bg-gradient-to-b from-purple-50/70 to-indigo-50/40 p-5 rounded-2xl border border-purple-100 space-y-4">
-                <div class="flex items-center justify-between border-b border-purple-100 pb-2">
+            <!-- Felfri Uppställningshjälp -->
+            <div id="frac-setup-container" class="hidden w-full text-left bg-gradient-to-b from-purple-50/70 to-indigo-50/40 p-5 rounded-2xl border border-purple-100 space-y-3">
+                <div class="border-b border-purple-100 pb-2">
                     <h3 class="text-xs sm:text-sm font-bold text-purple-900 flex items-center gap-1.5">🛠️ Steg-för-steg Uppställningsstöd</h3>
                 </div>
-                <div id="frac-guided-steps" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
+                <div id="frac-guided-steps" class="text-xs sm:text-sm text-slate-700 space-y-2"></div>
             </div>
 
             <div class="flex justify-between w-full pt-4 border-t border-slate-100">
@@ -223,29 +136,31 @@
                 <button onclick="skipFraction()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs sm:text-sm font-bold rounded-xl">Hoppa över →</button>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Bråk Resultatvy -->
-    <div id="frac-result-container" class="card hidden">
-        <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow-inner">🏆</div>
-        <h2 class="text-2xl font-extrabold text-slate-900 mb-2">Bråktestet klart!</h2>
-        <p id="frac-result-message" class="text-slate-600 text-sm mb-6">Du har slutfört alla 100 bråkfrågor!</p>
-        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 mb-6">
+    <!-- BRÅK RESULTATVY -->
+    <div id="frac-result-container" class="hidden max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-xl p-8 border border-purple-50 text-center space-y-6">
+        <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">🏆</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Bråktestet klart!</h2>
+        <p id="frac-result-message" class="text-slate-600 text-sm"></p>
+        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
             <div class="text-xs text-slate-500 font-medium">Antal Rätt</div>
             <div id="frac-res-score" class="text-3xl font-black text-purple-600">0 / 100</div>
         </div>
-        <button onclick="startMode('fractions')" class="btn btn-purple mb-2">Gör om bråktestet 🔄</button>
-        <button onclick="returnToMenu()" class="btn btn-back">Tillbaka till menyn</button>
+        <div class="space-y-3">
+            <button onclick="startMode('fractions')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl transition-all">Gör om bråktestet 🔄</button>
+            <button onclick="returnToMenu()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">Tillbaka till menyn</button>
+        </div>
     </div>
 
-    <footer class="text-center py-4 text-xs text-slate-400 mt-auto">
+    <footer class="text-center py-4 text-xs text-slate-400">
         Mattespel • 100 frågor per läge 🌟
     </footer>
 
     <script>
         const mainMenu = document.getElementById('main-menu-container');
         const simpleQuizCard = document.getElementById('simple-quiz-card');
-        const resultContainer = document.getElementById('result-container');
+        const simpleResultContainer = document.getElementById('simple-result-container');
         const fractionsContainer = document.getElementById('fractions-container');
         const fracResultContainer = document.getElementById('frac-result-container');
 
@@ -257,7 +172,7 @@
         function returnToMenu() {
             mainMenu.classList.remove('hidden');
             simpleQuizCard.classList.add('hidden');
-            resultContainer.classList.add('hidden');
+            simpleResultContainer.classList.add('hidden');
             fractionsContainer.classList.add('hidden');
             fracResultContainer.classList.add('hidden');
         }
@@ -267,42 +182,39 @@
             currentIndex = 0;
             score = 0;
             mainMenu.classList.add('hidden');
+            simpleResultContainer.classList.add('hidden');
+            fracResultContainer.classList.add('hidden');
 
             if (mode === 'multiplication' || mode === 'decimals') {
                 simpleQuizCard.classList.remove('hidden');
-                resultContainer.classList.add('hidden');
-                document.getElementById('mode-title').textContent = mode === 'multiplication' ? "Multiplikationsutmaningen" : "Decimalutmaningen";
-                document.getElementById('instruction-box').style.display = mode === 'decimals' ? 'block' : 'none';
+                fractionsContainer.classList.add('hidden');
+                document.getElementById('mode-title-badge').textContent = mode === 'multiplication' ? "Multiplikation" : "Decimaler";
+                document.getElementById('simple-instruction').style.display = mode === 'decimals' ? 'block' : 'none';
                 
                 if (mode === 'multiplication') generateMultiplicationQuestions();
                 else generateDecimalQuestions();
 
                 showSimpleQuestion();
             } else if (mode === 'fractions') {
+                simpleQuizCard.classList.add('hidden');
                 fractionsContainer.classList.remove('hidden');
-                fracResultContainer.classList.add('hidden');
                 generateFractionQuestions();
                 renderFractionQuestion();
             }
         }
 
-        function restartCurrentSimpleMode() {
-            startMode(currentMode);
-        }
-
-        // DEL 1 & 2
-        const progressText = document.getElementById('progress-text');
-        const questionText = document.getElementById('question-text');
-        const inputField = document.getElementById('answer-input');
-        const scoreText = document.getElementById('score-text');
+        // 1 & 2 LOGIK
+        const simpleProgressText = document.getElementById('simple-progress-text');
+        const simpleQuestionText = document.getElementById('simple-question-text');
+        const simpleInputField = document.getElementById('simple-answer-input');
+        const simpleScoreText = document.getElementById('simple-score-text');
 
         function generateMultiplicationQuestions() {
             questions = [];
             for (let i = 0; i < 100; i++) {
                 const a = Math.floor(Math.random() * 9) + 1;
                 const b = Math.floor(Math.random() * 9) + 1;
-                const ans = (a * b).toString();
-                questions.push({ text: `${a} × ${b} = ?`, accept: [ans] });
+                questions.push({ text: `${a} × ${b} = ?`, accept: [(a * b).toString()] });
             }
         }
 
@@ -325,11 +237,7 @@
                     [d1, d2] = [d2, d1];
                 }
 
-                let exactAns;
-                if (op === '+') exactAns = n1 + n2;
-                else if (op === '-') exactAns = n1 - n2;
-                else exactAns = n1 * n2;
-
+                let exactAns = op === '+' ? n1 + n2 : (op === '-' ? n1 - n2 : n1 * n2);
                 exactAns = Math.round(exactAns * 1000) / 1000;
                 let targetDec = Math.max(d1, d2);
 
@@ -340,32 +248,30 @@
                     exactAns.toFixed(2).replace('.', ','),
                     exactAns.toFixed(3).replace('.', ',')
                 ];
-                let bal1 = n1.toFixed(targetDec).replace('.', ',');
-                let bal2 = n2.toFixed(targetDec).replace('.', ',');
-                acceptList.push(bal1, bal2);
+                acceptList.push(n1.toFixed(targetDec).replace('.', ','), n2.toFixed(targetDec).replace('.', ','));
                 acceptList = [...new Set(acceptList)];
 
                 let opSymbol = op === '*' ? '×' : op;
-                let textStr = `${n1.toFixed(d1).replace('.', ',')} ${opSymbol} ${n2.toFixed(d2).replace('.', ',')} = ?`;
-
-                questions.push({ text: textStr, accept: acceptList });
+                questions.push({ text: `${n1.toFixed(d1).replace('.', ',')} ${opSymbol} ${n2.toFixed(d2).replace('.', ',')} = ?`, accept: acceptList });
             }
         }
 
         function showSimpleQuestion() {
             if (currentIndex >= 100) {
-                showSimpleResults();
+                simpleQuizCard.classList.add('hidden');
+                simpleResultContainer.classList.remove('hidden');
+                simpleScoreText.innerHTML = `Du fick <strong>${score}</strong> av 100 rätt!`;
                 return;
             }
             const q = questions[currentIndex];
-            progressText.textContent = `Fråga ${currentIndex + 1} av 100`;
-            questionText.textContent = q.text;
-            inputField.value = '';
-            inputField.focus();
+            simpleProgressText.textContent = `Fråga ${currentIndex + 1} av 100`;
+            simpleQuestionText.textContent = q.text;
+            simpleInputField.value = '';
+            simpleInputField.focus();
         }
 
         function checkSimpleAnswer() {
-            const userVal = inputField.value.trim().replace('.', ',');
+            const userVal = simpleInputField.value.trim().replace('.', ',');
             if (userVal === '') return;
             const q = questions[currentIndex];
             if (q.accept.includes(userVal)) {
@@ -375,12 +281,9 @@
             }
         }
 
-        inputField.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') checkSimpleAnswer();
-        });
-
-        inputField.addEventListener('input', function() {
-            const userVal = inputField.value.trim().replace('.', ',');
+        simpleInputField.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkSimpleAnswer(); });
+        simpleInputField.addEventListener('input', () => {
+            const userVal = simpleInputField.value.trim().replace('.', ',');
             if (userVal === '') return;
             const q = questions[currentIndex];
             if (q.accept.includes(userVal)) {
@@ -390,14 +293,8 @@
             }
         });
 
-        function showSimpleResults() {
-            simpleQuizCard.classList.add('hidden');
-            resultContainer.classList.remove('hidden');
-            scoreText.innerHTML = `Du fick <strong>${score}</strong> av 100 rätt!`;
-        }
 
-
-        // DEL 3: BRÅKMÄSTAREN
+        // 3: BRÅKMÄSTAREN LOGIK
         let fractionQuestions = [];
         let fracCurrentIdx = 0;
         let fracScore = 0;
@@ -485,31 +382,24 @@
 
         function renderFractionGuidedSteps(q) {
             const container = document.getElementById("frac-guided-steps");
-            container.innerHTML = "";
             if (q.op === '+' || q.op === '-') {
                 container.innerHTML = `
-                    <div class="font-bold text-purple-900 mb-1">Steg 1: Förläng till gemensam nämnare</div>
-                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-2">
-                        <div>• Första bråket (${q.num1}/${q.den1}) förlängs med det andra bråkets nämnare (${q.den2}).</div>
-                        <div>• Andra bråket (${q.num2}/${q.den2}) förlängs med det första bråkets nämnare (${q.den1}).</div>
-                        <div class="font-semibold text-purple-700 pt-1">Gemensam nämnare blir: ${q.den1 * q.den2}</div>
-                    </div>
+                    <div class="font-bold text-purple-900">Steg 1: Förläng till gemensam nämnare</div>
+                    <div>• Första bråket (${q.num1}/${q.den1}) förlängs med ${q.den2}.</div>
+                    <div>• Andra bråket (${q.num2}/${q.den2}) förlängs med ${q.den1}.</div>
+                    <div class="font-semibold text-purple-700">Gemensam nämnare: ${q.den1 * q.den2}</div>
                 `;
             } else if (q.op === '·') {
                 container.innerHTML = `
-                    <div class="font-bold text-purple-900 mb-1">Steg för multiplikation:</div>
-                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-1">
-                        <div>• Multiplicera täljarna med varandra: <strong>${q.num1} × ${q.num2}</strong></div>
-                        <div>• Multiplicera nämnarna med varandra: <strong>${q.den1} × ${q.den2}</strong></div>
-                    </div>
+                    <div class="font-bold text-purple-900">Steg för multiplikation:</div>
+                    <div>• Multiplicera täljarna: <strong>${q.num1} × ${q.num2}</strong></div>
+                    <div>• Multiplicera nämnarna: <strong>${q.den1} × ${q.den2}</strong></div>
                 `;
             } else {
                 container.innerHTML = `
-                    <div class="font-bold text-purple-900 mb-1">Steg för division:</div>
-                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-1">
-                        <div>• Vänd det andra bråket (${q.num2}/${q.den2}) upp och ned till <strong>${q.den2}/${q.num2}</strong>.</div>
-                        <div>• Byt tecken till multiplikation (·) och multiplicera täljare med täljare samt nämnare med nämnare!</div>
-                    </div>
+                    <div class="font-bold text-purple-900">Steg för division:</div>
+                    <div>• Vänd det andra bråket till <strong>${q.den2}/${q.num2}</strong>.</div>
+                    <div>• Multiplicera täljare med täljare och nämnare med nämnare!</div>
                 `;
             }
         }
@@ -552,7 +442,10 @@
                         fracCurrentIdx++;
                         renderFractionQuestion();
                     } else {
-                        showFractionResults();
+                        fractionsContainer.classList.add('hidden');
+                        fracResultContainer.classList.remove('hidden');
+                        document.getElementById("frac-res-score").innerText = `${fracScore} / 100`;
+                        document.getElementById("frac-result-message").innerText = fracScore === 100 ? "Perfekt resultat! 100 av 100 rätt! 👑✨" : "Fantastiskt kämpat med bråken! 🎉";
                     }
                 }, 400);
             }
@@ -563,7 +456,10 @@
                 fracCurrentIdx++;
                 renderFractionQuestion();
             } else {
-                showFractionResults();
+                fractionsContainer.classList.add('hidden');
+                fracResultContainer.classList.remove('hidden');
+                document.getElementById("frac-res-score").innerText = `${fracScore} / 100`;
+                document.getElementById("frac-result-message").innerText = "Du har slutfört alla 100 bråkfrågor!";
             }
         }
 
@@ -572,13 +468,6 @@
                 fracCurrentIdx--;
                 renderFractionQuestion();
             }
-        }
-
-        function showFractionResults() {
-            fractionsContainer.classList.add('hidden');
-            fracResultContainer.classList.remove('hidden');
-            document.getElementById("frac-res-score").innerText = `${fracScore} / 100`;
-            document.getElementById("frac-result-message").innerText = fracScore === 100 ? "Perfekt resultat! 100 av 100 rätt! 👑✨" : "Fantastiskt kämpat med bråken! 🎉";
         }
     </script>
 </body>

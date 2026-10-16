@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -216,7 +215,7 @@
                 <div class="flex items-center justify-between border-b border-purple-100 pb-2">
                     <h3 class="text-xs sm:text-sm font-bold text-purple-900 flex items-center gap-1.5">🛠️ Steg-för-steg Uppställningsstöd</h3>
                 </div>
-                <div id="frac-guided-steps" class="space-y-4 text-sm text-slate-700"></div>
+                <div id="frac-guided-steps" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
             </div>
 
             <div class="flex justify-between w-full pt-4 border-t border-slate-100">
@@ -488,11 +487,30 @@
             const container = document.getElementById("frac-guided-steps");
             container.innerHTML = "";
             if (q.op === '+' || q.op === '-') {
-                container.innerHTML = `<div class="text-xs font-semibold text-purple-950">Steg 1: Förläng bråken till gemensam nämnare (${q.den1} och ${q.den2}).</div>`;
+                container.innerHTML = `
+                    <div class="font-bold text-purple-900 mb-1">Steg 1: Förläng till gemensam nämnare</div>
+                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-2">
+                        <div>• Första bråket (${q.num1}/${q.den1}) förlängs med det andra bråkets nämnare (${q.den2}).</div>
+                        <div>• Andra bråket (${q.num2}/${q.den2}) förlängs med det första bråkets nämnare (${q.den1}).</div>
+                        <div class="font-semibold text-purple-700 pt-1">Gemensam nämnare blir: ${q.den1 * q.den2}</div>
+                    </div>
+                `;
             } else if (q.op === '·') {
-                container.innerHTML = `<div class="text-xs font-semibold text-purple-950">Multiplicera Täljare med Täljare (${q.num1}·${q.num2}) och Nämnare med Nämnare (${q.den1}·${q.den2}).</div>`;
+                container.innerHTML = `
+                    <div class="font-bold text-purple-900 mb-1">Steg för multiplikation:</div>
+                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-1">
+                        <div>• Multiplicera täljarna med varandra: <strong>${q.num1} × ${q.num2}</strong></div>
+                        <div>• Multiplicera nämnarna med varandra: <strong>${q.den1} × ${q.den2}</strong></div>
+                    </div>
+                `;
             } else {
-                container.innerHTML = `<div class="text-xs font-semibold text-purple-950">Vänd det andra bråket upp och ned och multiplicera!</div>`;
+                container.innerHTML = `
+                    <div class="font-bold text-purple-900 mb-1">Steg för division:</div>
+                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-1">
+                        <div>• Vänd det andra bråket (${q.num2}/${q.den2}) upp och ned till <strong>${q.den2}/${q.num2}</strong>.</div>
+                        <div>• Byt tecken till multiplikation (·) och multiplicera täljare med täljare samt nämnare med nämnare!</div>
+                    </div>
+                `;
             }
         }
 
@@ -565,5 +583,3 @@
     </script>
 </body>
 </html>
-
-```

@@ -21,16 +21,22 @@
             animation: shake 0.4s ease-in-out;
         }
 
-        /* Sprite-fönster: 100px bredd & 189px höjd */
+        /* Sprite-fönster: 100px bredd & 189px höjd med dynamisk positionering */
         .warrior-avatar {
-            width: 100px;             /* Ändrad bredd till 100px */
-            height: 189px;            /* Behållen höjd */
-            flex-shrink: 0;           /* Förhindrar att bilden kläms ihop i flexboxen */
+            width: 100px;             
+            height: 189px;            
+            flex-shrink: 0;           
             background-image: url('watermarked_img_11824166666452409595.jpg');
             background-size: 1000% 100%;
             background-position: 0% 50%;
             background-repeat: no-repeat;
             image-rendering: pixelated;
+            transition: background-position 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Studs-animation vid nivå-upp */
+        .level-up-anim {
+            transform: scale(1.15);
         }
     </style>
 </head>
@@ -42,13 +48,14 @@
         <!-- Översta statusraden -->
         <div class="flex justify-between items-center w-full text-xs font-semibold px-1">
             <span id="step-badge" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Steg 1: Balansera</span>
+            <span id="level-badge" class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Nivå 1 / 10</span>
             <span id="progress-text" class="text-slate-500">Fråga 1 av 50</span>
         </div>
         
         <!-- Sektion med karaktären till vänster och instruktionsrutan till höger -->
         <div class="flex items-center gap-4 text-left bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">
-            <!-- Karaktären till vänster (100px bred) -->
-            <div class="warrior-avatar rounded-2xl border-2 border-indigo-100 bg-white shadow-sm" title="Din krigarkompis"></div>
+            <!-- Karaktären till vänster (uppgraderas dynamiskt) -->
+            <div id="warrior-img" class="warrior-avatar rounded-2xl border-2 border-indigo-100 bg-white shadow-sm" title="Din krigarkompis"></div>
             
             <!-- Instruktionsrutan till höger -->
             <div id="instruction-box" class="bg-indigo-50/80 text-indigo-950 p-4 rounded-xl text-xs sm:text-sm font-semibold border border-indigo-100 shadow-sm leading-relaxed flex-1">
@@ -91,6 +98,12 @@
         let currentSubStep = 1; // 1 = Balansera, 2 = Räkna ut
         let score = 0;
         const operations = ['+', '-', '*'];
+
+        // Positioner för de 10 karaktärerna i sprite-arket (0% till 100%)
+        const spritePositions = [
+            "0%", "11.1%", "22.2%", "33.3%", "44.4%", 
+            "55.5%", "66.6%", "77.7%", "88.8%", "100%"
+        ];
 
         for (let i = 0; i < TOTAL_QUESTIONS; i++) {
             const op = operations[Math.floor(Math.random() * operations.length)];
@@ -150,7 +163,9 @@
         const questionText = document.getElementById('question-text');
         const progressText = document.getElementById('progress-text');
         const stepBadge = document.getElementById('step-badge');
+        const levelBadge = document.getElementById('level-badge');
         const instructionBox = document.getElementById('instruction-box');
+        const warriorImg = document.getElementById('warrior-img');
         const gameContainer = document.getElementById('game-container');
         const resultContainer = document.getElementById('result-container');
 
@@ -177,6 +192,15 @@
             inputField.select();
         }
 
+        function updateWarriorLevel() {
+            let levelIndex = Math.min(Math.floor(currentIndex / 5), 9);
+            warriorImg.style.backgroundPosition = `${spritePositions[levelIndex]} 50%`;
+            levelBadge.textContent = `Nivå ${levelIndex + 1} / 10`;
+
+            warriorImg.classList.add('level-up-anim');
+            setTimeout(() => warriorImg.classList.remove('level-up-anim'), 300);
+        }
+
         function showQuestion() {
             if (currentIndex >= TOTAL_QUESTIONS) {
                 gameContainer.classList.add('hidden');
@@ -185,6 +209,8 @@
                 return;
             }
 
+            updateWarriorLevel();
+
             progressText.textContent = `Fråga ${currentIndex + 1} av ${TOTAL_QUESTIONS}`;
             inputField.value = '';
             inputField.focus();
@@ -192,7 +218,6 @@
             const q = questions[currentIndex];
 
             if (currentSubStep === 1) {
-                // Steg 1: Balansera
                 stepBadge.textContent = "Steg 1: Balansera";
                 stepBadge.className = "bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full font-semibold";
                 instructionBox.textContent = "Vilket tal behöver fyllas ut med nollor för att få rätt decimaler? Skriv det:";
@@ -200,7 +225,6 @@
                 questionText.textContent = `${q.n1Str} ${q.opSymbol} ${q.n2Str} = ?`;
                 inputField.placeholder = "Svar...";
             } else {
-                // Steg 2: Räkna ut med ljusgrått kommatecken och ev. inledande nolla
                 stepBadge.textContent = "Steg 2: Räkna ut";
                 stepBadge.className = "bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-semibold";
                 
@@ -228,19 +252,19 @@
             if (currentSubStep === 1) {
                 if (userVal === q.targetBalancedVal) {
                     score++;
-                    currentSubStep = 2; // Endast rätt svar tar en vidare till steg 2
+                    currentSubStep = 2;
                     showQuestion();
                 } else {
-                    triggerErrorEffect(); // Fel svar – stanna kvar och visa skakanimation
+                    triggerErrorEffect();
                 }
             } else {
                 if (q.acceptFinal.includes(userVal)) {
                     score++;
                     currentIndex++;
-                    currentSubStep = 1; // Endast rätt svar tar en vidare till nästa fråga
+                    currentSubStep = 1;
                     showQuestion();
                 } else {
-                    triggerErrorEffect(); // Fel svar – stanna kvar och visa skakanimation
+                    triggerErrorEffect();
                 }
             }
         }

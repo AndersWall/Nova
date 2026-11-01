@@ -6,7 +6,7 @@
     <title>Decimalbalansen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ännu ljusare grå (Slate-300) för kommatecken och inledande nolla i steg 2 */
+        /* Svagt grå (Slate-300) för kommatecken och inledande nolla i steg 2 */
         .dimmed {
             color: #cbd5e1 !important; 
         }
@@ -20,23 +20,44 @@
         .shake {
             animation: shake 0.4s ease-in-out;
         }
+
+        /* Sprite-fönster: 100px bredd & 189px höjd */
+        .warrior-avatar {
+            width: 100px;             /* Ändrad bredd till 100px */
+            height: 189px;            /* Behållen höjd */
+            flex-shrink: 0;           /* Förhindrar att bilden kläms ihop i flexboxen */
+            background-image: url('watermarked_img_11824166666452409595.jpg');
+            background-size: 1000% 100%;
+            background-position: 0% 50%;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen text-slate-900 flex flex-col justify-between p-4">
     
     <!-- Spelcontainer -->
-    <div id="game-container" class="max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-indigo-50 text-center space-y-6">
-        <div class="flex justify-between items-center text-xs font-semibold">
+    <div id="game-container" class="max-w-xl w-full mx-auto my-auto bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-indigo-50 text-center space-y-5">
+        
+        <!-- Översta statusraden -->
+        <div class="flex justify-between items-center w-full text-xs font-semibold px-1">
             <span id="step-badge" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Steg 1: Balansera</span>
             <span id="progress-text" class="text-slate-500">Fråga 1 av 50</span>
         </div>
         
-        <div id="instruction-box" class="bg-indigo-50 text-indigo-900 p-3 rounded-xl text-xs font-semibold border border-indigo-100">
-            Vilket av talen behöver fyllas ut med nollor för att få lika många decimaler? Skriv det talet:
+        <!-- Sektion med karaktären till vänster och instruktionsrutan till höger -->
+        <div class="flex items-center gap-4 text-left bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">
+            <!-- Karaktären till vänster (100px bred) -->
+            <div class="warrior-avatar rounded-2xl border-2 border-indigo-100 bg-white shadow-sm" title="Din krigarkompis"></div>
+            
+            <!-- Instruktionsrutan till höger -->
+            <div id="instruction-box" class="bg-indigo-50/80 text-indigo-950 p-4 rounded-xl text-xs sm:text-sm font-semibold border border-indigo-100 shadow-sm leading-relaxed flex-1">
+                Vilket av talen behöver fyllas ut med nollor för att få lika många decimaler? Skriv det talet:
+            </div>
         </div>
 
         <!-- Frågeområde -->
-        <div id="question-text" class="text-3xl font-black text-slate-900 py-3 tracking-wide">Laddar...</div>
+        <div id="question-text" class="text-3xl font-black text-slate-900 py-2 tracking-wide">Laddar...</div>
 
         <form id="answer-form" onsubmit="submitAnswer(event)" class="space-y-4">
             <input type="text" id="answer-input" autocomplete="off" autofocus placeholder="Svar..."
@@ -133,7 +154,7 @@
         const gameContainer = document.getElementById('game-container');
         const resultContainer = document.getElementById('result-container');
 
-        // Formaterar talet för steg 2: Bara inledande nolla och kommatecknet är ljusgrått
+        // Formaterar talet för steg 2: Inledande nolla och kommatecken är ljusgrå
         function buildDimmedHTML(numStr) {
             let parts = numStr.split(',');
             let intPart = parts[0];
@@ -160,7 +181,7 @@
             if (currentIndex >= TOTAL_QUESTIONS) {
                 gameContainer.classList.add('hidden');
                 resultContainer.classList.remove('hidden');
-                document.getElementById('score-text').innerHTML = `Du clarade alla <strong>${TOTAL_QUESTIONS}</strong> frågor! 🎉`;
+                document.getElementById('score-text').innerHTML = `Du klarade alla <strong>${TOTAL_QUESTIONS}</strong> frågor! 🎉`;
                 return;
             }
 

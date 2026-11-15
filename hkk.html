@@ -1,9 +1,16 @@
+Här är en uppdaterad och utökad version med **totalt 22 frågor** (de tidigare 12 samt 10 helt nya frågor baserade på de nya texterna om näringsämnen, planering, inköp och matlagning).
+
+Varje fråga ger nu direkt feedback (ett facit) när man klickar i ett svar!
+
+Du kan kopiera koden nedan, klistra in den i en textfil och spara den som `quiz.html` för att skicka eller köra den.
+
+```html
 <!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz om Tallriksmodellen och Miljösmarta Måltider</title>
+    <title>Stora Quizet om Mat, Hälsa, Miljö och Smarta Inköp</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,7 +48,7 @@
             display: block;
             margin-bottom: 8px;
             cursor: pointer;
-            padding: 6px;
+            padding: 8px;
             border-radius: 4px;
             transition: background 0.2s;
         }
@@ -50,6 +57,23 @@
         }
         input[type="checkbox"], input[type="radio"] {
             margin-right: 10px;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            display: none;
+        }
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+        .feedback.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #feb2b2;
         }
         button {
             display: block;
@@ -78,35 +102,30 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: none;
         }
-        .correct {
-            color: #38a169;
-        }
-        .incorrect {
-            color: #e53e3e;
-        }
     </style>
 </head>
 <body>
 
-    <h1>Tallriksmodellen & Miljösmarta Måltider</h1>
+    <h1>Mat, Hälsa, Miljö och Smarta Inköp</h1>
     <div class="intro">
-        <p>Testa vad du kan om hur kroppen mår bra av maten – och hur vi samtidigt kan vara snälla mot miljön! Välj rätt svar på frågorna nedan (tänk på att vissa frågor kan ha flera rätta svar).</p>
+        <p>Testa vad du kan om näringsämnen, tallriksmodellen, miljösmarta måltider och hur man planerar smarta inköp! Svara på frågorna – du får direkt se vad som är rätt eller fel.</p>
     </div>
 
     <form id="quizForm">
         
         <!-- Fråga 1 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="b">
             <div class="question-title">1. Vad är det huvudsakliga syftet med tallriksmodellen?</div>
             <div class="options">
                 <label><input type="radio" name="q1" value="a"> A) Att visa exakt hur många gram godis man får äta i veckan.</label>
                 <label><input type="radio" name="q1" value="b"> B) Att hjälpa till att dela upp maten i lagom proportioner av kolhydrater, grönsaker och protein.</label>
                 <label><input type="radio" name="q1" value="c"> C) Att visa hur man bygger en tallrik som bara innehåller kött.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 2 -->
-        <div class="question-card">
+        <div class="question-card" data-type="checkbox" data-answer="a,b,c">
             <div class="question-title">2. Vilka tre delar delas tallriksmodellen upp i? (Flera svarsalternativ kan vara rätt)</div>
             <div class="options">
                 <label><input type="checkbox" name="q2" value="a"> A) Grönsaker och rotfrukter</label>
@@ -114,30 +133,33 @@
                 <label><input type="checkbox" name="q2" value="c"> C) Kött, fisk, ägg eller baljväxter (protein)</label>
                 <label><input type="checkbox" name="q2" value="d"> D) Chips och läsk</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 3 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">3. Varför är den första delen av tallriksmodellen (den med grönsaker och rotfrukter) så stor?</div>
             <div class="options">
                 <label><input type="radio" name="q3" value="a"> A) För att den ger mycket vitaminer, mineraler och fibrer utan för mycket energi.</label>
                 <label><input type="radio" name="q3" value="b"> B) För att grönsaker är dyrast att köpa.</label>
                 <label><input type="radio" name="q3" value="c"> C) För att man blir trött av grönsaker.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 4 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="b">
             <div class="question-title">4. Vad menas med begreppet "matsvinn"?</div>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) Mat som växer vilt i skogen.</label>
                 <label><input type="radio" name="q4" value="b"> B) Mat som slängs fast den egentligen hade kunnat ätas.</label>
                 <label><input type="radio" name="q4" value="c"> C) Det man rensar bort från fisken när man lagar den.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 5 -->
-        <div class="question-card">
+        <div class="question-card" data-type="checkbox" data-answer="a,b,c">
             <div class="question-title">5. Vilka av följande räknas upp som miljösmarta råvaror? (Flera svarsalternativ kan vara rätt)</div>
             <div class="options">
                 <label><input type="checkbox" name="q5" value="a"> A) Rotfrukter som potatis och morötter</label>
@@ -145,60 +167,66 @@
                 <label><input type="checkbox" name="q5" value="c"> C) Grönsaker i säsong (t.ex. kål på hösten)</label>
                 <label><input type="checkbox" name="q5" value="d"> D) Mat som flygs in från andra sidan jorden under fel säsong</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 6 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">6. Hur påverkar matsvinn miljön negativt när vi slänger maten?</div>
             <div class="options">
                 <label><input type="radio" name="q6" value="a"> A) Det slösar på resurser som vatten, energi, mark och arbete som krävdes för att producera den.</label>
                 <label><input type="radio" name="q6" value="b"> B) Det påverkar inte miljön alls eftersom mat bryts ner direkt.</label>
                 <label><input type="radio" name="q6" value="c"> C) Det gör att haven blir saltare.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 7 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">7. Vilket köttalternativ brukar lyftas fram som mer miljösmart jämfört med nötkött?</div>
             <div class="options">
                 <label><input type="radio" name="q7" value="a"> A) Kyckling, fisk eller vilt kött</label>
                 <label><input type="radio" name="q7" value="b"> B) Importerat lammkött</label>
                 <label><input type="radio" name="q7" value="c"> C) Inget kött alls är okej för miljön</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 8 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">8. Vad kan man göra med matrester istället för att slänga dem i soporna?</div>
             <div class="options">
                 <label><input type="radio" name="q8" value="a"> A) Ställa dem i kylen eller frysen och äta upp dem senare.</label>
                 <label><input type="radio" name="q8" value="b"> B) Hälla ut dem i diskhon.</label>
                 <label><input type="radio" name="q8" value="c"> C) Slänga dem direkt i plaståtervinningen.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 9 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">9. Vad är fördelen med att välja svensk frukt och grönt när det är säsong?</div>
             <div class="options">
                 <label><input type="radio" name="q9" value="a"> A) De transporteras ofta kortare sträckor och kräver mindre miljöbelastande växthusodling.</label>
                 <label><input type="radio" name="q9" value="b"> B) De smakar alltid salt.</label>
                 <label><input type="radio" name="q9" value="c"> C) De innehåller inga vitaminer alls.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 10 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">10. Vilken typ av fysisk aktivitet eller rörelse passar bra ihop med att äta bra mat?</div>
             <div class="options">
                 <label><input type="radio" name="q10" value="a"> A) Alla typer av rörelse, lek, gymnastik, löpning eller promenader.</label>
                 <label><input type="radio" name="q10" value="b"> B) Man får bara träna om man sitter helt stilla.</label>
                 <label><input type="radio" name="q10" value="c"> C) Man ska inte röra på sig alls när man äter tallriksmodellen.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 11 -->
-        <div class="question-card">
+        <div class="question-card" data-type="checkbox" data-answer="a,b,c,d">
             <div class="question-title">11. Vad tillhör kolhydratsdelen i tallriksmodellen? (Flera svarsalternativ kan vara rätt)</div>
             <div class="options">
                 <label><input type="checkbox" name="q11" value="a"> A) Potatis</label>
@@ -206,19 +234,134 @@
                 <label><input type="checkbox" name="q11" value="c"> C) Ris</label>
                 <label><input type="checkbox" name="q11" value="d"> D) Fullkornsbröd</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
         <!-- Fråga 12 -->
-        <div class="question-card">
+        <div class="question-card" data-type="radio" data-answer="a">
             <div class="question-title">12. Varför är baljväxter (som bönor, linser och kikärtor) ett bra miljöval?</div>
             <div class="options">
                 <label><input type="radio" name="q12" value="a"> A) De är rika på protein och har en mycket låg klimatpåverkan jämfört med många andra proteinkällor.</label>
                 <label><input type="radio" name="q12" value="b"> B) De växer bara i rymden.</label>
                 <label><input type="radio" name="q12" value="c"> C) De räknas som godis.</label>
             </div>
+            <div class="feedback"></div>
         </div>
 
-        <button type="button" onclick="checkQuiz()">Rätta provet</button>
+        <!-- NYA FRÅGOR (13-22) -->
+
+        <!-- Fråga 13 -->
+        <div class="question-card" data-type="radio" data-answer="a">
+            <div class="question-title">13. Vilka är de tre huvudgrupperna som kolhydrater i maten delas in i?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> A) Sockerarter, stärkelse och kostfibrer</label>
+                <label><input type="radio" name="q13" value="b"> B) Protein, fett och vatten</label>
+                <label><input type="radio" name="q13" value="c"> C) Vitaminer, mineraler och salt</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 14 -->
+        <div class="question-card" data-type="radio" data-answer="b">
+            <div class="question-title">14. Vad gör kostfibrer i kroppen eftersom de inte ger någon energi?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> Bli till extra muskelmassa.</label>
+                <label><input type="radio" name="q14" value="b"> Hjälper tarmarna att arbeta.</label>
+                <label><input type="radio" name="q14" value="c"> Gör att man blir törstig.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 15 -->
+        <div class="question-card" data-type="radio" data-answer="a">
+            <div class="question-title">15. Vad händer om du äter mer energi än vad kroppen gör av med?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> Kroppen sparar energin och lagrar den i form av fett (man går upp i vikt).</label>
+                <label><input type="radio" name="q15" value="b"> Man springer mycket fortare.</label>
+                <label><input type="radio" name="q15" value="c"> Ingenting alls händer.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 16 -->
+        <div class="question-card" data-type="radio" data-answer="c">
+            <div class="question-title">16. Vilken är den främsta anledningen till att vi behöver proteiner?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> För att få i oss rent socker.</label>
+                <label><input type="radio" name="q16" value="b"> För att göra skelettet mjukt.</label>
+                <label><input type="radio" name="q16" value="c"> De bygger upp våra muskler som gör att vi kan röra på oss.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 17 -->
+        <div class="question-card" data-type="checkbox" data-answer="a,b,c,d">
+            <div class="question-title">17. Vilka viktiga vitaminer hjälper fett kroppen att ta upp? (Flera svar kan vara rätt)</div>
+            <div class="options">
+                <label><input type="checkbox" name="q17" value="a"> A) A-vitamin</label>
+                <label><input type="checkbox" name="q17" value="b"> B) D-vitamin</label>
+                <label><input type="checkbox" name="q17" value="c"> C) E-vitamin</label>
+                <label><input type="checkbox" name="q17" value="d"> D) K-vitamin</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 18 -->
+        <div class="question-card" data-type="radio" data-answer="a">
+            <div class="question-title">18. Vilka livsmedel innehåller exempel på nyttiga fetter?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> Olivolja, solrosfrön, linfrön och lax</label>
+                <label><input type="radio" name="q18" value="b"> Läsk och godis</label>
+                <label><input type="radio" name="q18" value="c"> Vit pasta och vitt ris</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 19 -->
+        <div class="question-card" data-type="radio" data-answer="b">
+            <div class="question-title">19. Vad är en stor fördel med att göra en matsedel och en inköpslista?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> Man slipper gå till affären någonsin igen.</label>
+                <label><input type="radio" name="q19" value="b"> Det blir lättare att planera, handla smart och spara pengar.</label>
+                <label><input type="radio" name="q19" value="c"> Maten lagar sig själv av sig själv.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 20 -->
+        <div class="question-card" data-type="radio" data-answer="a">
+            <div class="question-title">20. När du är i affären, vad är smartast att titta på när du jämför priser?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> Priset per kilo (inte bara styckpriset), särskilt vid storpack.</label>
+                <label><input type="radio" name="q20" value="b"> Vilken färg det är på förpackningen.</label>
+                <label><input type="radio" name="q20" value="c"> Hur stor skylt det är.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 21 -->
+        <div class="question-card" data-type="radio" data-answer="c">
+            <div class="question-title">21. Hur kan du spara både pengar och minska matsvinnet i vardagen?</div>
+            <div class="options">
+                <label><input type="radio" name="q21" value="a"> Slänga mat direkt om den blir över så den inte ligger i kylen.</label>
+                <label><input type="radio" name="q21" value="b"> Köpa endast färdigmat på restaurang.</label>
+                <label><input type="radio" name="q21" value="c"> Ta med matlåda och laga större portioner som du fryser in till senare måltider.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- Fråga 22 -->
+        <div class="question-card" data-type="radio" data-answer="a">
+            <div class="question-title">22. Hur kan du göra en vanlig maträtt lite mer miljösmart och billigare?</div>
+            <div class="options">
+                <label><input type="radio" name="q22" value="a"> Byt ut en del kött mot bönor och linser.</label>
+                <label><input type="radio" name="q22" value="b"> Dubbla mängden godis till efterrätt.</label>
+                <label><input type="radio" name="q22" value="c"> Importera kött långväga ifrån.</label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <button type="button" onclick="checkQuiz()">Rätta hela provet</button>
     </form>
 
     <div id="result"></div>
@@ -226,77 +369,63 @@
     <script>
         function checkQuiz() {
             let score = 0;
-            const total = 12;
+            const cards = document.querySelectorAll('.question-card');
 
-            // Rätt svar definitioner:
-            // Q1: b
-            let q1 = document.querySelector('input[name="q1"]:checked');
-            if (q1 && q1.value === 'b') score++;
+            cards.forEach((card, index) => {
+                const type = card.getAttribute('data-type');
+                const correctAnswer = card.getAttribute('data-answer');
+                const feedbackDiv = card.querySelector('.feedback');
+                feedbackDiv.style.display = 'block';
 
-            // Q2: a, b, c (inga andra)
-            let q2a = document.querySelector('input[name="q2"][value="a"]').checked;
-            let q2b = document.querySelector('input[name="q2"][value="b"]').checked;
-            let q2c = document.querySelector('input[name="q2"][value="c"]').checked;
-            let q2d = document.querySelector('input[name="q2"][value="d"]').checked;
-            if (q2a && q2b && q2c && !q2d) score++;
+                if (type === 'radio') {
+                    const selected = card.querySelector('input[type="radio"]:checked');
+                    if (selected && selected.value === correctAnswer) {
+                        score++;
+                        feedbackDiv.className = 'feedback correct';
+                        feedbackDiv.innerHTML = '✅ Rätt svar!';
+                    } else {
+                        feedbackDiv.className = 'feedback incorrect';
+                        feedbackDiv.innerHTML = '❌ Fel svar. Rätt svar var alternativ ' + correctAnswer.toUpperCase() + '.';
+                    }
+                } else if (type === 'checkbox') {
+                    const checkboxes = card.querySelectorAll('input[type="checkbox"]');
+                    const correctArr = correctAnswer.split(',');
+                    let allCorrect = true;
+                    let userCorrectCount = 0;
+                    let userWrongCount = 0;
 
-            // Q3: a
-            let q3 = document.querySelector('input[name="q3"]:checked');
-            if (q3 && q3.value === 'a') score++;
+                    checkboxes.forEach(cb => {
+                        const isCorrectOption = correctArr.includes(cb.value);
+                        if (cb.checked && isCorrectOption) {
+                            userCorrectCount++;
+                        } else if (cb.checked && !isCorrectOption) {
+                            userWrongCount++;
+                        } else if (!cb.checked && isCorrectOption) {
+                            allCorrect = false;
+                        }
+                    });
 
-            // Q4: b
-            let q4 = document.querySelector('input[name="q4"]:checked');
-            if (q4 && q4.value === 'b') score++;
+                    if (allCorrect && userWrongCount === 0 && userCorrectCount === correctArr.length) {
+                        score++;
+                        feedbackDiv.className = 'feedback correct';
+                        feedbackDiv.innerHTML = '✅ Helt rätt!';
+                    } else {
+                        feedbackDiv.className = 'feedback incorrect';
+                        feedbackDiv.innerHTML = '❌ Det saknats eller hängde med felaktiga alternativ här.';
+                    }
+                }
+            });
 
-            // Q5: a, b, c (inga d)
-            let q5a = document.querySelector('input[name="q5"][value="a"]').checked;
-            let q5b = document.querySelector('input[name="q5"][value="b"]').checked;
-            let q5c = document.querySelector('input[name="q5"][value="c"]').checked;
-            let q5d = document.querySelector('input[name="q5"][value="d"]').checked;
-            if (q5a && q5b && q5c && !q5d) score++;
-
-            // Q6: a
-            let q6 = document.querySelector('input[name="q6"]:checked');
-            if (q6 && q6.value === 'a') score++;
-
-            // Q7: a
-            let q7 = document.querySelector('input[name="q7"]:checked');
-            if (q7 && q7.value === 'a') score++;
-
-            // Q8: a
-            let q8 = document.querySelector('input[name="q8"]:checked');
-            if (q8 && q8.value === 'a') score++;
-
-            // Q9: a
-            let q9 = document.querySelector('input[name="q9"]:checked');
-            if (q9 && q9.value === 'a') score++;
-
-            // Q10: a
-            let q10 = document.querySelector('input[name="q10"]:checked');
-            if (q10 && q10.value === 'a') score++;
-
-            // Q11: a, b, c, d (alla rätt)
-            let q11a = document.querySelector('input[name="q11"][value="a"]').checked;
-            let q11b = document.querySelector('input[name="q11"][value="b"]').checked;
-            let q11c = document.querySelector('input[name="q11"][value="c"]').checked;
-            let q11d = document.querySelector('input[name="q11"][value="d"]').checked;
-            if (q11a && q11b && q11c && q11d) score++;
-
-            // Q12: a
-            let q12 = document.querySelector('input[name="q12"]:checked');
-            if (q12 && q12.value === 'a') score++;
-
-            // Visa resultat
             const resultDiv = document.getElementById('result');
             resultDiv.style.display = 'block';
             
-            let message = `Du fick ${score} av ${total} rätt! `;
-            if (score === total) {
-                message += "🌟 Fantastiskt bra jobbat, alla rätt!";
-            } else if (score >= 9) {
-                message += "👏 Superbra gjort!";
+            let message = `Du fick ${score} av ${cards.length} rätt! `;
+            if (score === cards.length) {
+                message += "🌟 Otroligt bra jobbat, alla rätt!";
+            } else if (score >= 18) {
+                message += "👏 Fantastiskt bra gjort!";
             } else {
-                message += "Bra kämpat, prova gärna igen för att få alla rätt!";
+                message += "Bra kämpat! Kolla på markeringarna vid frågorna och prova gärna igen.";
             }
             
             resultDiv.innerHTML = message;
@@ -305,3 +434,5 @@
     </script>
 </body>
 </html>
+
+```
